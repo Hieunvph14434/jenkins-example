@@ -8,17 +8,31 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                script {
+                    // Checkout code from the pull request branch
+                    // Jenkins sẽ tự động checkout branch pull request nếu có PR đang mở.
+                    checkout scm
+                    // In trường hợp bạn muốn đảm bảo rằng bạn đang checkout sang branch PR,
+                    // có thể sử dụng dòng lệnh sau (nếu cần):
+                    // sh "git fetch origin ${env.CHANGE_BRANCH}"
+                    // sh "git checkout ${env.CHANGE_BRANCH}"
+                }
             }
         }
-        stage('Test') {
+        stage('Install Dependencies') {
             steps {
-              sh 'npm i && npm run lint'
+                // Cài đặt các phụ thuộc
+                script {
+                    sh 'npm install'
+                }
             }
         }
-        stage('Deploy') {
+        stage('Run Lint') {
             steps {
-                echo 'Check done!!!'
+                // Chạy lệnh lint để kiểm tra quy tắc mã hóa
+                script {
+                    sh 'npm run lint'
+                }
             }
         }
     }
@@ -28,10 +42,10 @@ pipeline {
             echo 'Cleaning up after the build.'
         }
         success {
-            echo 'Build and tests were successful.'
+            echo 'Linting passed successfully.'
         }
         failure {
-            echo 'Build failed. Please check the logs.'
+            echo 'Linting failed. Please check the logs.'
         }
     }
 }
