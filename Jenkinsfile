@@ -6,14 +6,14 @@ pipeline {
     }
 
     tools {
-        nodejs 'NodeJS18'  // Sử dụng NodeJS đã cấu hình trong Jenkins
+        nodejs 'NodeJS18'  // use NodeJS config in Jenkins
     }
 
     stages {
         stage('Checkout') {
             steps {
                 script {
-                    // Checkout mã nguồn từ pull request
+                    // Checkout branch pull request
                     checkout scm
                 }
             }
@@ -21,17 +21,20 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Cài đặt các phụ thuộc npm
                     sh 'npm install'
                 }
             }
         }
-        stage('Run Lint') {
+        stage('Check code convention...') {
             steps {
                 script {
-                    // Chạy lệnh lint để kiểm tra quy tắc mã hóa
                     sh 'npm run lint'
                 }
+            }
+        }
+         stage('Check done!') {
+            steps {
+               echo 'Check code convention successfully!!!'
             }
         }
     }
