@@ -1,20 +1,23 @@
 pipeline {
     agent any
-
-    environment {
-        BRANCH_NAME = 'master'
-    }
-
     tools {
-        nodejs 'NodeJS18'  // use NodeJS config in Jenkins
+        nodejs 'NodeJS18'
     }
-
     stages {
         stage('Checkout') {
             steps {
                 script {
-                    // Checkout branch pull request
+                    // Checkout the branch from the pull request (PR)
                     checkout scm
+                }
+            }
+        }
+        stage('Echo PR Branch Name') {
+            steps {
+                script {
+                    // Print the name of the branch from which the PR is created
+                    echo "The branch from which the PR was created: ${env.GIT_BRANCH}"
+                    echo "The branch of the PR: ${env.CHANGE_BRANCH}" // If you're using GitHub PR plugin
                 }
             }
         }
@@ -25,29 +28,17 @@ pipeline {
                 }
             }
         }
-        stage('Check code convention...') {
+        stage('Lint') {
             steps {
                 script {
                     sh 'npm run lint'
                 }
             }
         }
-         stage('Check done!') {
-            steps {
-               echo 'Check code convention successfully!!!'
-            }
-        }
     }
-
     post {
-        always {
-            echo 'Cleaning up after the build.'
-        }
-        success {
-            echo 'Linting passed successfully.'
-        }
         failure {
-            echo 'Linting failed. Please check the logs.'
+            echo "Linting failed. Please check the logs."
         }
     }
 }
