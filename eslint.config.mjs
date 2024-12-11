@@ -15,5 +15,8 @@ export default [
     rules: {
         semi: ["warn", "always"]
     }
+  },
+  {
+    ignores: [] // ignores check eslint file
   }
 ];
