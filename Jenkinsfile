@@ -10,19 +10,11 @@ pipeline {
     }
 
     stages {
-        // stage('Checkout') {
-        //     steps {
-        //         script {
-        //             // Checkout branch pull request
-        //             checkout scm
-        //         }
-        //     }
-        // }
-        //  stage('Checkout') {
-        //     steps {
-        //         checkout scm
-        //     }
-        // }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 script {
