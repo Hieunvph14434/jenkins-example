@@ -2,30 +2,40 @@ pipeline {
     agent any
 
     environment {
-        // Các biến môi trường (nếu có)
         BRANCH_NAME = 'master'
     }
 
     stages {
-        stage('Checkout') {
+        // stage('Checkout') {
+        //     steps {
+        //         checkout scm
+        //     }
+        // }
+        stage('Build') {
             steps {
-                // Kiểm tra mã nguồn từ Git
-                checkout scm
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
             }
         }
     }
 
     post {
         always {
-            // Cleanup (nếu cần)
             echo 'Cleaning up after the build.'
         }
         success {
-            // Hành động sau khi build thành công
             echo 'Build and tests were successful.'
         }
         failure {
-            // Hành động khi build thất bại
             echo 'Build failed. Please check the logs.'
         }
     }
