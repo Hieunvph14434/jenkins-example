@@ -3,7 +3,8 @@ const app = express()
 
 app.get('/about', function (req, res) {
     // init 111 888111ssa
-  res.send('Hello World 999')
+  let hello = "hello";
+  res.send('Hello World 999', hello)
 })
 
 app.listen(3003)
