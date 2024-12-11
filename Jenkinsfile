@@ -11,23 +11,25 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build') {
+        stage('Install Node.js') {
             steps {
-                echo 'Checking code conventions...'
+                script {
+                    // Cài đặt Node.js và npm (nếu chưa có)
+                    sh 'curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -'
+                    sh 'sudo apt-get install -y nodejs'
+                }
             }
         }
         stage('Install Dependencies') {
             steps {
-                script {
-                    sh 'npm install'
-                }
+                // Cài đặt các phụ thuộc
+                sh 'npm install'
             }
         }
         stage('Test') {
             steps {
-                script {
-                    sh 'npx eslint .'
-                }
+                // Chạy ESLint
+                sh 'npx eslint .'
             }
         }
         stage('Deploy') {
