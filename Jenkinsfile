@@ -13,12 +13,21 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo 'Check convention...'
+                echo 'Checking code conventions...'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    sh 'npm install'
+                }
             }
         }
         stage('Test') {
             steps {
-                sh 'npm run lint'
+                script {
+                    sh 'npx eslint .'
+                }
             }
         }
         stage('Deploy') {
