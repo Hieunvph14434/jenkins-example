@@ -5,32 +5,31 @@ pipeline {
         BRANCH_NAME = 'master'
     }
 
+    tools {
+        nodejs 'NodeJS-16'  // Sử dụng NodeJS đã cấu hình trong Jenkins
+    }
+
     stages {
         stage('Checkout') {
             steps {
                 script {
-                    // Checkout code from the pull request branch
-                    // Jenkins sẽ tự động checkout branch pull request nếu có PR đang mở.
+                    // Checkout mã nguồn từ pull request
                     checkout scm
-                    // In trường hợp bạn muốn đảm bảo rằng bạn đang checkout sang branch PR,
-                    // có thể sử dụng dòng lệnh sau (nếu cần):
-                    // sh "git fetch origin ${env.CHANGE_BRANCH}"
-                    // sh "git checkout ${env.CHANGE_BRANCH}"
                 }
             }
         }
         stage('Install Dependencies') {
             steps {
-                // Cài đặt các phụ thuộc
                 script {
+                    // Cài đặt các phụ thuộc npm
                     sh 'npm install'
                 }
             }
         }
         stage('Run Lint') {
             steps {
-                // Chạy lệnh lint để kiểm tra quy tắc mã hóa
                 script {
+                    // Chạy lệnh lint để kiểm tra quy tắc mã hóa
                     sh 'npm run lint'
                 }
             }
