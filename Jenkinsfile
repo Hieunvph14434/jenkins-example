@@ -6,7 +6,7 @@ pipeline {
     }
 
     tools {
-        nodejs 'NodeJS-16'  // Sử dụng NodeJS đã cấu hình trong Jenkins
+        nodejs 'NodeJS18'  // Sử dụng NodeJS đã cấu hình trong Jenkins
     }
 
     stages {
